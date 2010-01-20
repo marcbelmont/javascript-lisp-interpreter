@@ -20,10 +20,12 @@ var DEBUG = 1;
 var TEST = [
   // "(list (setq x (list))(if x 1 2))",
   // "(list (setq x (list 1 2 3)) (cons (car x) (cons (car x) (list))))",
+  "(cons 1 nil)",
+  "(setq test 123) (setq test2 (+ test 20)) (+ 1 test2)",
   "((js Math.abs) -23)",
   "(list "+
     "(defun reverse- (x r) "+
-    "(if (not (car x)) r (reverse- (cdr x) (cons (car x)))))"+
+    "(if (not (car x)) r (reverse- (cdr x) (cons (car x) r))))"+
     "(defun reverse (x) (reverse- x (list)))"+
     "(reverse (list 1 2 3 4))"+
     ")",
@@ -42,19 +44,19 @@ var TEST = [
   "((js Math.floor) 23.32)",
   "(car (list 1 2 3))",
   "(and 1 2 3 4 0)",
-  "(list (setq test 123) (setq test2 (+ test 20)) (+ 1 test2))",
   "(- 1 2 3)",
   "(if 1 (2 \"(())\" 3",
   '(if 1 "cool" 3)',
   "(if 0 2 (+ 0 2 4) 2 99)",
   "(+ 1 (if 1 (+ 1 20) 3))",
   "(+ 1 (* 2",
-  "(+ 1 2 (* 3 4))",
+  "(+ 1 2 (* 3 4))"
 ][0]
 var _text = null;
 var _balanced = 0;
 var _env = null;
 
+// function trace(x) { console.log(x); }
 function init() {
   // trace(read(TEST));
 }
@@ -64,14 +66,16 @@ function read(text) {
   try {
     _balanced = 0;
     _text = $.trim(text);
-    var code = parser()[0];
+    var code = ["list"];
+    while (_text.length)
+      code = code.concat(parser());
     if (_balanced > 0)
       throw "The expression is not balanced. Add "+_balanced+" parentheses.";
     else if (_balanced < 0)
       throw "The expression is not balanced. Remove "+_balanced+" parentheses.";
     // trace(code);
     if (!_env) _env = {};
-    return eval_(code, _env);
+    return (eval_(code, _env)).pop();
   } catch (e) {
     return "Error: "+e;
   }
@@ -175,16 +179,17 @@ var operators = {
   // list
   "car":function() {
     var l = arguments[0];
-    if (!l.length) return null;
+    if (!l || !l.length) return null;
     return l[0];
   },
   "cdr":function() {
     var l = arguments[0];
-    if (!l.length) return [];
+    if (!l || !l.length) return [];
     return l.slice(1);
   },
   "cons":function() {
     var a = arguments[1];
+    if (a == null) return [arguments[0]];
     a.unshift(arguments[0])
     return a;
   },
