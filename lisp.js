@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////
-// Copyright (C) 2005 Marc Belmont				        //
+// Copyright (C) 2010 Marc Belmont				        //
 // 								        //
 // This file is free software; you can redistribute it and/or modify    //
 // it under the terms of the GNU General Public License as published by //
@@ -18,38 +18,7 @@
 
 var DEBUG = 1;
 var TEST = [
-  // "(list (setq x (list))(if x 1 2))",
-  // "(list (setq x (list 1 2 3)) (cons (car x) (cons (car x) (list))))",
   "(cons 1 nil)",
-  "(setq test 123) (setq test2 (+ test 20)) (+ 1 test2)",
-  "((js Math.abs) -23)",
-  "(list "+
-    "(defun reverse- (x r) "+
-    "(if (not (car x)) r (reverse- (cdr x) (cons (car x) r))))"+
-    "(defun reverse (x) (reverse- x (list)))"+
-    "(reverse (list 1 2 3 4))"+
-    ")",
-  "(list "+
-    "(defun add1 (x) (+ 1 x))"+
-    "(defun fact (x) (if (<= x 1) 1 (* x (fact (- x 1)))))"+
-    "(fact 5))",
-  "(list "+
-    "(defun mapcar (x f) "+
-    "(if (not (car x)) (list) (cons (f (car x)) (mapcar (cdr x) f))))"+
-    "(mapcar (list 1 2 3) (lambda (x) (* x x))))",
-  "((lambda (x y z) (setq x (+ x 1)) (+ 1 x y z x)) 2 2 2)",
-  "(list (defun +en (x y) (+ x x y)) (+en 1 2))",
-  "(cdr (list 1 2 3))",
-  "(or 0 1 0 0)",
-  "((js Math.floor) 23.32)",
-  "(car (list 1 2 3))",
-  "(and 1 2 3 4 0)",
-  "(- 1 2 3)",
-  "(if 1 (2 \"(())\" 3",
-  '(if 1 "cool" 3)',
-  "(if 0 2 (+ 0 2 4) 2 99)",
-  "(+ 1 (if 1 (+ 1 20) 3))",
-  "(+ 1 (* 2",
   "(+ 1 2 (* 3 4))"
 ][0]
 var _text = null;
