@@ -1,19 +1,10 @@
 
-var DEBUG = 1;
-var TEST = [
-  "(cons 1 nil)",
-  "(+ 1 2 (* 3 4))"
-][0]
 var _text = null;
 var _balanced = 0;
 var _env = null;
 
-
-
-function trace(x) { console.log(x); }
 function init() {
   gui();
-  // trace(read(TEST));
 }
 
 /////////////////
@@ -234,6 +225,9 @@ function parser() {
   }
   return result;
 }
+
+// Helpers
+function trace(x) { console.log(x); }
 
 ////////////////////
 // User interface //
