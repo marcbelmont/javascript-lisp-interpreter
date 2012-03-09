@@ -1,20 +1,3 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright (C) 2010 Marc Belmont				        //
-// 								        //
-// This file is free software; you can redistribute it and/or modify    //
-// it under the terms of the GNU General Public License as published by //
-// the Free Software Foundation; either version 2, or (at your option)  //
-// any later version.						        //
-// 								        //
-// This file is distributed in the hope that it will be useful,	        //
-// but WITHOUT ANY WARRANTY; without even the implied warranty of       //
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        //
-// GNU General Public License for more details.			        //
-// 								        //
-// Commentary:							        //
-// Javascript lisp interpreter by marc belmont http://marcbelmont.com   //
-// 								        //
-//////////////////////////////////////////////////////////////////////////
 
 var DEBUG = 1;
 var TEST = [
@@ -25,13 +8,19 @@ var _text = null;
 var _balanced = 0;
 var _env = null;
 
-// function trace(x) { console.log(x); }
+
+
+function trace(x) { console.log(x); }
 function init() {
+  gui();
   // trace(read(TEST));
 }
 
+/////////////////
+// Interpreter //
+/////////////////
+
 function read(text) {
-  // if (1) {
   try {
     _balanced = 0;
     _text = $.trim(text);
@@ -39,10 +28,9 @@ function read(text) {
     while (_text.length)
       code = code.concat(parser());
     if (_balanced > 0)
-      throw "The expression is not balanced. Add "+_balanced+" parentheses.";
+      throw "The expression is not balanced. Add " + _balanced + " parentheses.";
     else if (_balanced < 0)
-      throw "The expression is not balanced. Remove "+_balanced+" parentheses.";
-    // trace(code);
+      throw "The expression is not balanced. Remove " + Math.abs(_balanced) + " parentheses.";
     if (!_env) _env = {};
     return (eval_(code, _env)).pop();
   } catch (e) {
@@ -212,7 +200,7 @@ var operators = {
 };
 
 ///////////////////////////
-// convert text to lists //
+// Convert text to lists //
 ///////////////////////////
 
 function scanner() {
@@ -245,4 +233,16 @@ function parser() {
     token = scanner();
   }
   return result;
+}
+
+////////////////////
+// User interface //
+////////////////////
+
+function gui() {
+  $("#evaluate").click(function() {
+    var history = $("#history");
+    history.append("$ " + $("#input").val() + "\n" + read($("#input").val()) + "\n");
+    history.scrollTop(history[0].scrollHeight - history.height());
+  });
 }

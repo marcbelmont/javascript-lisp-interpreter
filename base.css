@@ -1,0 +1,20 @@
+h1 { font-size: 18px; font-weight: bold; margin: 10px 0; }
+h2 { font-size: 14px; font-weight: bold; }
+body
+{
+  margin: 0;
+  padding: 0;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.content
+{
+  width: 800px;
+  text-align: left;
+  border: 0px;
+  padding: 0;
+  margin: 0 auto;
+}
+.keywords { margin: 10px 0; }
+.examples { margin: 10px 0; padding: 3px; background-color: #eee; }
